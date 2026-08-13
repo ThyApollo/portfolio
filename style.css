@@ -18,6 +18,9 @@
 
 html { scroll-behavior: smooth; }
 
+/* offset scroll-to-section so the fixed nav doesn't cover the heading */
+#work, #about { scroll-margin-top: 88px; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -243,44 +246,6 @@ img { display: block; max-width: 100%; }
   color: #8A8984;
   pointer-events: none;
 }
-
-/* ============================================================
-   IMAGE PLACEHOLDER SLOTS (project shots, portrait)
-   Drop a real <img> in place of these divs when you have assets.
-   ============================================================ */
-.slot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
-  overflow: hidden;
-}
-.slot__label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  line-height: 1.6;
-  color: #6B6A66;
-  max-width: 24ch;
-}
-.slot__chip {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: rgba(237,236,232,0.55);
-  border: 1px solid rgba(237,236,232,0.18);
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-.slot--1 { background: radial-gradient(120% 120% at 20% 15%, #16202a 0%, #0a0d11 55%, #050506 100%); }
-.slot--2 { background: radial-gradient(120% 120% at 80% 20%, #1b1a24 0%, #0c0b12 55%, #050506 100%); }
-.slot--3 { background: radial-gradient(120% 120% at 50% 85%, #10201a 0%, #0a0f0c 55%, #050506 100%); }
-.slot--portrait { background: radial-gradient(120% 120% at 50% 30%, #171b20 0%, #0b0d10 60%, #050506 100%); }
 
 /* ============================================================
    WORK — sticky stack (each card pins at the top; the next card
@@ -516,18 +481,9 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
 
 /* ---------- about ---------- */
 .about {
-  display: grid;
-  grid-template-columns: minmax(260px, 380px) 1fr;
-  gap: 64px;
-  align-items: center;
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
   padding: 60px 40px 140px;
-}
-.about__portrait {
-  height: 460px;
-  overflow: hidden;
-  border-radius: 16px;
 }
 .about__body {
   display: flex;
@@ -693,8 +649,6 @@ select.field option { color: #050506; }
    ============================================================ */
 @media (max-width: 900px) {
   .contact__grid { grid-template-columns: 1fr; gap: 40px; }
-  .about { grid-template-columns: 1fr; gap: 32px; }
-  .about__portrait { height: 320px; }
 }
 
 @media (max-width: 760px) {

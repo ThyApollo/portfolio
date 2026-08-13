@@ -244,6 +244,15 @@
       counters.forEach(function (c) { io.observe(c); });
     }
 
+    /* ---------- CONTACT nav → jump to the bottom (the send-a-message form) ---------- */
+    var contactLink = document.querySelector('a.nav__cta[href="#contact"]');
+    if (contactLink) {
+      contactLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+      });
+    }
+
     /* ---------- magnetic CTAs ---------- */
     if (!reduced) {
       $$("[data-magnet]").forEach(function (el) {
