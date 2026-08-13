@@ -321,7 +321,15 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: 100%;
 }
-img.stack-card__media { object-fit: cover; object-position: top center; }
+img.stack-card__media { object-fit: cover; object-position: top center; transition: transform 0.5s ease; }
+
+/* full-card click target + hover affordance */
+.stack-card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+.stack-card__frame:hover .stack-card__media { transform: scale(1.03); }
 
 /* scrim so the title/description stay legible over bright screenshots */
 .stack-card__scrim {
