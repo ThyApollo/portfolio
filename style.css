@@ -413,7 +413,12 @@ img.stack-card__media { object-fit: cover; }
   border-radius: 2px;
 }
 .svc::before { width: 100%; background: rgba(169, 199, 217, 0.20); }
-.svc::after  { width: var(--fill, 0%); background: var(--accent); }
+.svc::after  {
+  width: var(--fill, 0%);
+  background: var(--accent);
+  box-shadow: 0 0 9px rgba(169, 199, 217, 0.65); /* the bar "lights up" as it fills */
+  transition: width 0.15s linear;
+}
 .svc__num {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
