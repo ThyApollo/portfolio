@@ -377,23 +377,6 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
   opacity: 0;
   pointer-events: none;
 }
-.stack-card__tags {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  color: var(--bg);
-  background: var(--accent);
-  border: none;
-  padding: 6px 13px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
 
 /* ============================================================
    SERVICES — pin + horizontal scroll (01 → 04)
