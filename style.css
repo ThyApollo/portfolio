@@ -22,8 +22,12 @@ html, body {
   margin: 0;
   padding: 0;
   background: var(--bg);
-  overflow-x: hidden;
 }
+/* NOTE: do NOT put overflow-x: hidden on html/body — per the CSS overflow
+   spec it forces overflow-y to `auto`, turning the root into a scroll
+   container and breaking every `position: sticky` effect on this page.
+   Horizontal overflow is contained by `.site { overflow-x: clip }` instead
+   (`clip` is exempt from that rule). */
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--ink); }
