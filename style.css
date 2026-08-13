@@ -569,7 +569,7 @@ img.stack-card__media { object-fit: cover; }
    CONTACT — uncovered
    ============================================================ */
 .contact {
-  --contact-crop-right: 12%; /* how much of the contact image to trim off the right */
+  --contact-crop-right: 0%; /* image is now pre-cropped in the file; raise this to trim more off the right via CSS */
   position: sticky;
   bottom: 0;
   z-index: 0;
