@@ -477,34 +477,6 @@ img.stack-card__media { object-fit: cover; }
   color: #8A8984;
 }
 
-.quotes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-.quote {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: 0;
-  opacity: 0.35; /* JS brightens on scroll */
-}
-.quote__text {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1.35;
-}
-.quote__cite {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #8A8984;
-}
-
 /* ---------- marquee (groups are built by script.js) ---------- */
 .marquee {
   overflow: hidden;
@@ -709,7 +681,6 @@ select.field option { color: #050506; }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
-  .quotes { grid-template-columns: 1fr; gap: 32px; }
   .contact__grid { grid-template-columns: 1fr; gap: 40px; }
   .about { grid-template-columns: 1fr; gap: 32px; }
   .about__portrait { height: 320px; }

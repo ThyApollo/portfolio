@@ -46,7 +46,7 @@
         if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
           var subject = encodeURIComponent("Project inquiry — " + (type || "New project"));
           var body = encodeURIComponent(message + "\n\n— " + name + " (" + email + ")");
-          window.location.href = "mailto:hello@apollo.dev?subject=" + subject + "&body=" + body;
+          window.location.href = "mailto:thyapollo@proton.me?subject=" + subject + "&body=" + body;
           return;
         }
 
@@ -215,13 +215,6 @@
             t = clamp((vh * 0.92 - rr.top) / (vh * 0.3));
           }
           el.style.opacity = String(0.25 + 0.75 * (reduced ? 1 : t));
-        });
-
-        // testimonials brighten
-        $$("[data-quote]").forEach(function (q, i) {
-          var r2 = q.getBoundingClientRect();
-          var t = clamp((vh * 0.85 - r2.top) / (vh * 0.25) - i * 0.35);
-          q.style.opacity = String(0.35 + 0.65 * (reduced ? 1 : t));
         });
       });
     };
