@@ -59,7 +59,6 @@
             img.className = "marquee__icon";
             img.src = BASE + ic[0] + ".svg";
             img.alt = hidden ? "" : ic[1];
-            img.loading = "lazy";
             g.appendChild(img);
           });
           w += SET_W;
