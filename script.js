@@ -126,9 +126,7 @@
     var svcSticky   = svcSection && svcSection.querySelector(".services__sticky");
     var svcTrack    = svcSection && svcSection.querySelector("[data-svc-track]");
     var svcViewport = svcSection && svcSection.querySelector(".services__viewport");
-    var svcCards    = svcSection ? Array.prototype.slice.call(svcSection.querySelectorAll(".svc")) : [];
     var svcDistance = 0;
-    var svcIntroPlaying = false, svcIntroDone = false;
 
     function layoutServices() {
       if (!svcSection || !svcTrack || !svcViewport) return;
@@ -197,13 +195,6 @@
           var sr = svcSection.getBoundingClientRect();
           var sp = clamp(-sr.top / svcDistance);
           svcTrack.style.transform = "translateX(" + (-sp * svcDistance) + "px)";
-          if (!svcIntroPlaying) {
-            var n = svcCards.length;
-            for (var ci = 0; ci < n; ci++) {
-              // each card's bar fills over its 1/n slice of the scroll → sequential 01→04
-              svcCards[ci].style.setProperty("--fill", (clamp(sp * n - ci) * 100) + "%");
-            }
-          }
         }
 
         // sub-text light-up
@@ -227,33 +218,6 @@
     window.addEventListener("resize", function () { layoutServices(); onScroll(); });
     window.addEventListener("load", function () { layoutServices(); onScroll(); });
     onScroll();
-
-    /* ---------- services intro: light up the bars on entry (scroll affordance) ---------- */
-    function playServicesIntro() {
-      if (svcIntroDone || reduced || isMobile() || svcDistance <= 0 || !svcCards.length) return;
-      svcIntroDone = true;
-      svcIntroPlaying = true;
-      var n = svcCards.length, t0 = null, dur = 900;
-      var frame = function (now) {
-        if (t0 === null) t0 = now;
-        var t = clamp((now - t0) / dur);
-        var eased = 1 - Math.pow(1 - t, 3);
-        for (var i = 0; i < n; i++) {
-          svcCards[i].style.setProperty("--fill", (clamp(eased * n - i) * 100) + "%");
-        }
-        if (t < 1) { requestAnimationFrame(frame); }
-        else { svcIntroPlaying = false; onScroll(); } // hand back to real scroll progress
-      };
-      requestAnimationFrame(frame);
-    }
-    if (svcSection && "IntersectionObserver" in window) {
-      var svcIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { svcIO.unobserve(e.target); playServicesIntro(); }
-        });
-      }, { threshold: 0.2 });
-      svcIO.observe(svcSection);
-    }
 
     /* ---------- stats count-up ---------- */
     var counters = $$("[data-count]");

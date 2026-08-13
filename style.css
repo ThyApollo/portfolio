@@ -321,7 +321,40 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: 100%;
 }
-img.stack-card__media { object-fit: cover; }
+img.stack-card__media { object-fit: cover; object-position: top center; }
+
+/* scrim so the title/description stay legible over bright screenshots */
+.stack-card__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(5,5,6,0.9) 0%, rgba(5,5,6,0.55) 20%, rgba(5,5,6,0) 46%);
+}
+.stack-card__caption {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 38px;
+  max-width: 680px;
+  pointer-events: none;
+}
+.stack-card__title {
+  margin: 0 0 10px;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.stack-card__desc {
+  margin: 0;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+  color: #C9C8C3;
+  max-width: 56ch;
+}
 
 .stack-card__shade {
   position: absolute;
@@ -391,7 +424,6 @@ img.stack-card__media { object-fit: cover; }
   will-change: transform;
 }
 .svc {
-  position: relative;
   flex: 0 0 auto;
   width: clamp(300px, 46vw, 600px);
   min-height: 300px;
@@ -399,30 +431,8 @@ img.stack-card__media { object-fit: cover; }
   flex-direction: column;
   gap: 16px;
   background: linear-gradient(180deg, rgba(237,236,232,0.045) 0%, rgba(237,236,232,0) 60%);
-  padding: 30px 26px 26px;
-  border-radius: 0 0 6px 6px;
-}
-/* top bar = scroll-progress indicator: dim track + accent fill (--fill set by JS) */
-.svc::before,
-.svc::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 2px;
-  border-radius: 2px;
-}
-.svc::before { width: 100%; background: rgba(169, 199, 217, 0.20); }
-.svc::after  {
-  width: var(--fill, 0%);
-  background: var(--accent);
-  box-shadow: 0 0 9px rgba(169, 199, 217, 0.65); /* the bar "lights up" as it fills */
-  transition: width 0.15s linear;
-}
-.svc__num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--accent);
+  padding: 28px 26px 26px;
+  border-radius: 6px;
 }
 .svc__title {
   font-family: 'Clash Display', sans-serif;
@@ -726,7 +736,6 @@ select.field option { color: #050506; }
     transform: none !important;
   }
   .svc { width: auto; min-height: 0; }
-  .svc::after { width: 100% !important; } /* no horizontal scroll on mobile → show full bars */
 
   .work__head { padding: 40px 24px 20px; }
   .stack-card { padding: 12px 14px; }
@@ -777,5 +786,4 @@ select.field option { color: #050506; }
     width: auto;
     transform: none !important;
   }
-  .svc::after { width: 100% !important; }
 }
