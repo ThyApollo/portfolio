@@ -76,7 +76,7 @@
     var svcSticky   = svcSection && svcSection.querySelector(".services__sticky");
     var svcTrack    = svcSection && svcSection.querySelector("[data-svc-track]");
     var svcViewport = svcSection && svcSection.querySelector(".services__viewport");
-    var svcHint     = svcSection && svcSection.querySelector("[data-svc-hint]");
+    var svcCards    = svcSection ? Array.prototype.slice.call(svcSection.querySelectorAll(".svc")) : [];
     var svcDistance = 0;
 
     function layoutServices() {
@@ -141,12 +141,16 @@
           if (inner && !reduced) inner.style.transform = "scale(" + (1 - p * 0.04) + ")";
         });
 
-        // services: horizontal scroll while pinned
+        // services: horizontal scroll while pinned, + segmented bar-fill progress
         if (svcSection && svcDistance > 0) {
           var sr = svcSection.getBoundingClientRect();
           var sp = clamp(-sr.top / svcDistance);
           svcTrack.style.transform = "translateX(" + (-sp * svcDistance) + "px)";
-          if (svcHint) svcHint.style.opacity = String(1 - sp);
+          var n = svcCards.length;
+          for (var ci = 0; ci < n; ci++) {
+            // each card's bar fills over its 1/n slice of the scroll → sequential 01→04
+            svcCards[ci].style.setProperty("--fill", (clamp(sp * n - ci) * 100) + "%");
+          }
         }
 
         // sub-text light-up

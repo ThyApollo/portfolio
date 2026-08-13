@@ -370,9 +370,7 @@ img.stack-card__media { object-fit: cover; }
 }
 .services__head {
   display: flex;
-  align-items: baseline;
   justify-content: center;
-  gap: 20px;
   padding: 0 40px;
 }
 .services__title {
@@ -380,13 +378,6 @@ img.stack-card__media { object-fit: cover; }
   font-weight: 600;
   font-size: clamp(40px, 3.6vw, 56px);
   text-transform: uppercase;
-}
-.services__hint {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #6B6A66;
-  transition: opacity 0.4s;
 }
 .services__viewport {
   width: 100%;
@@ -400,17 +391,29 @@ img.stack-card__media { object-fit: cover; }
   will-change: transform;
 }
 .svc {
+  position: relative;
   flex: 0 0 auto;
   width: clamp(300px, 46vw, 600px);
   min-height: 300px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-top: 2px solid var(--accent);
   background: linear-gradient(180deg, rgba(237,236,232,0.045) 0%, rgba(237,236,232,0) 60%);
-  padding: 28px 26px 26px;
+  padding: 30px 26px 26px;
   border-radius: 0 0 6px 6px;
 }
+/* top bar = scroll-progress indicator: dim track + accent fill (--fill set by JS) */
+.svc::before,
+.svc::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+}
+.svc::before { width: 100%; background: rgba(169, 199, 217, 0.20); }
+.svc::after  { width: var(--fill, 0%); background: var(--accent); }
 .svc__num {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
@@ -734,7 +737,6 @@ select.field option { color: #050506; }
     gap: 28px;
   }
   .services__head { justify-content: flex-start; padding: 0 24px; }
-  .services__hint { display: none; }
   .services__viewport { overflow: visible; }
   .services__track {
     flex-direction: column;
@@ -744,6 +746,7 @@ select.field option { color: #050506; }
     transform: none !important;
   }
   .svc { width: auto; min-height: 0; }
+  .svc::after { width: 100% !important; } /* no horizontal scroll on mobile → show full bars */
 
   .work__head { padding: 40px 24px 20px; }
   .stack-card { padding: 12px 14px; }
@@ -787,7 +790,6 @@ select.field option { color: #050506; }
   .services { height: auto !important; }
   .services__sticky { position: static; height: auto; padding: 80px 40px; }
   .services__head { justify-content: flex-start; }
-  .services__hint { display: none; }
   .services__viewport { overflow: visible; }
   .services__track {
     flex-wrap: wrap;
@@ -795,4 +797,5 @@ select.field option { color: #050506; }
     width: auto;
     transform: none !important;
   }
+  .svc::after { width: 100% !important; }
 }
