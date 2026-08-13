@@ -330,13 +330,19 @@ img.stack-card__media { object-fit: cover; object-position: top center; }
   pointer-events: none;
   background: linear-gradient(to top, rgba(5,5,6,0.9) 0%, rgba(5,5,6,0.55) 20%, rgba(5,5,6,0) 46%);
 }
-.stack-card__caption {
+.stack-card__bottom {
   position: absolute;
   left: 40px;
   right: 40px;
-  bottom: 38px;
-  max-width: 680px;
+  bottom: 34px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
   pointer-events: none;
+}
+.stack-card__caption {
+  max-width: 640px;
 }
 .stack-card__title {
   margin: 0 0 10px;
@@ -364,22 +370,21 @@ img.stack-card__media { object-fit: cover; object-position: top center; }
   pointer-events: none;
 }
 .stack-card__tags {
-  position: absolute;
-  top: 42px;
-  right: 40px;
   display: flex;
   gap: 8px;
-  pointer-events: none;
+  flex-shrink: 0;
 }
 .tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: var(--ink);
-  border: 1px solid rgba(237,236,232,0.35);
-  background: rgba(5,5,6,0.35);
-  padding: 5px 12px;
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  padding: 6px 13px;
   border-radius: 999px;
+  white-space: nowrap;
 }
 
 /* ============================================================
@@ -739,7 +744,12 @@ select.field option { color: #050506; }
 
   .work__head { padding: 40px 24px 20px; }
   .stack-card { padding: 12px 14px; }
-  .stack-card__tags { top: 24px; right: 20px; }
+  .stack-card__bottom {
+    left: 20px; right: 20px; bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 
   .proof { padding: 48px 24px 80px; gap: 48px; }
   .stats { gap: 28px; }
