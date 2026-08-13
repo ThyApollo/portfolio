@@ -1,5 +1,5 @@
 /* ============================================================
-   Apollo — portfolio interactions
+   Apollo, portfolio interactions
    Plain script (no framework, no build step):
      - contact mail handler
      - hero dim, statement line-light, sub/quote reveals
@@ -25,7 +25,7 @@
 
     /* ---------- contact form → Web3Forms (with mailto fallback) ----------
        Get a free key at https://web3forms.com (enter your email → they mail
-       you a key). The key is PUBLIC by design — safe to commit. Submissions
+       you a key). The key is PUBLIC by design, safe to commit. Submissions
        go to the inbox the key is registered to; your address never appears
        in the page. Until a key is set, "Send it" falls back to mailto. */
     var WEB3FORMS_ACCESS_KEY = "5fb8fd34-779d-4bbf-91cf-01969fcfb8f9";
@@ -44,8 +44,8 @@
 
         // fallback: no key configured yet → old mailto behavior
         if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
-          var subject = encodeURIComponent("Project inquiry — " + (type || "New project"));
-          var body = encodeURIComponent(message + "\n\n— " + name + " (" + email + ")");
+          var subject = encodeURIComponent("Project inquiry, " + (type || "New project"));
+          var body = encodeURIComponent(message + "\n\n" + name + " (" + email + ")");
           window.location.href = "mailto:thyapollo@proton.me?subject=" + subject + "&body=" + body;
           return;
         }
@@ -60,7 +60,7 @@
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify({
             access_key: WEB3FORMS_ACCESS_KEY,
-            subject: "Project inquiry — " + (type || "New project"),
+            subject: "Project inquiry, " + (type || "New project"),
             from_name: name || "Portfolio contact form",
             name: name,
             email: email,
@@ -72,14 +72,14 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           if (data && data.success) {
-            sendBtn.textContent = "Sent ✓ — I’ll reply within a day";
+            sendBtn.textContent = "Sent ✓, I’ll reply within a day";
             ["cf-name", "cf-email", "cf-msg"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
             var sel = document.getElementById("cf-type"); if (sel) sel.selectedIndex = 0;
           } else {
-            flash("Couldn’t send — try again");
+            flash("Couldn’t send, try again");
           }
         })
-        .catch(function () { flash("Couldn’t send — try again"); });
+        .catch(function () { flash("Couldn’t send, try again"); });
       });
     }
 
@@ -131,7 +131,7 @@
     function layoutServices() {
       if (!svcSection || !svcTrack || !svcViewport) return;
       if (reduced || isMobile()) {
-        // static/stacked layout handled by CSS — clear any inline sizing
+        // static/stacked layout handled by CSS, clear any inline sizing
         svcSection.style.height = "";
         svcTrack.style.transform = "";
         svcDistance = 0;
@@ -140,7 +140,7 @@
       svcTrack.style.transform = "none";
       var dist = svcTrack.scrollWidth - svcViewport.clientWidth;
       svcDistance = Math.max(0, Math.round(dist));
-      // section tall enough to pin for exactly the horizontal distance — no dead scroll
+      // section tall enough to pin for exactly the horizontal distance, no dead scroll
       svcSection.style.height = (window.innerHeight + svcDistance) + "px";
     }
 

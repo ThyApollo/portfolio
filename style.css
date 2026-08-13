@@ -1,8 +1,8 @@
 /* ============================================================
-   Apollo — portfolio
+   Apollo, portfolio
    Converted from the Apollo design comp to standard HTML/CSS/JS.
    Accent {{ accent }} resolved to #A9C7D9 (comp default; the other
-   sanctioned options were #D9A441 gold and #7FA98E green — swap the
+   sanctioned options were #D9A441 gold and #7FA98E green, swap the
    --accent value below to change the whole site's accent).
    ============================================================ */
 
@@ -26,7 +26,7 @@ html, body {
   padding: 0;
   background: var(--bg);
 }
-/* NOTE: do NOT put overflow-x: hidden on html/body — per the CSS overflow
+/* NOTE: do NOT put overflow-x: hidden on html/body, per the CSS overflow
    spec it forces overflow-y to `auto`, turning the root into a scroll
    container and breaking every `position: sticky` effect on this page.
    Horizontal overflow is contained by `.site { overflow-x: clip }` instead
@@ -248,7 +248,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================================
-   WORK — sticky stack (each card pins at the top; the next card
+   WORK, sticky stack (each card pins at the top; the next card
    scrolls up and stacks over it)
    ============================================================ */
 .work { position: relative; }
@@ -344,7 +344,7 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
 }
 
 /* ============================================================
-   SERVICES — pin + horizontal scroll (01 → 04)
+   SERVICES, pin + horizontal scroll (01 → 04)
    Section height is set by script.js to exactly (100vh + horizontal
    scroll distance), so there is no dead/blank scroll afterward.
    ============================================================ */
@@ -513,7 +513,7 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
 }
 
 /* ============================================================
-   CONTACT — uncovered
+   CONTACT, uncovered
    ============================================================ */
 .contact {
   --contact-crop-right: 0%; /* image is now pre-cropped in the file; raise this to trim more off the right via CSS */
@@ -535,7 +535,7 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
 .contact__img {
   /* Non-destructive right-crop: the image is widened and anchored left, so the
      container (overflow: hidden) clips the right edge. Tune --contact-crop-right
-     on .contact — bigger % = more trimmed off the right. Original PNG untouched. */
+     on .contact, bigger % = more trimmed off the right. Original PNG untouched. */
   width: calc(100% + var(--contact-crop-right, 0%));
   height: 100%;
   object-fit: cover;
@@ -725,7 +725,7 @@ select.field option { color: #050506; }
 }
 
 /* ============================================================
-   REDUCED MOTION — land every animated element in its final state,
+   REDUCED MOTION, land every animated element in its final state,
    and fall back to a static, fully-visible services layout.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

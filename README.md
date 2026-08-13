@@ -1,6 +1,6 @@
-# Apollo — Portfolio
+# Apollo, Portfolio
 
-A single-page developer portfolio. Static site — plain HTML, CSS, and JavaScript.
+A single-page developer portfolio. Static site, plain HTML, CSS, and JavaScript.
 No build step, no dependencies, no framework.
 
 Converted from the Apollo design comp: the tool-specific wrappers
@@ -24,7 +24,7 @@ system was replaced with standard `<img>` tags and styled placeholder panels.
 
 ## Run locally
 
-It's static, so just open `index.html` — or serve it (nicer, avoids any
+It's static, so just open `index.html`, or serve it (nicer, avoids any
 file:// quirks):
 
 ```bash
@@ -35,13 +35,13 @@ Then visit http://localhost:8000.
 
 ## Customizing
 
-- **Accent color** — change `--accent` in [`style.css`](style.css) (`:root`).
+- **Accent color**, change `--accent` in [`style.css`](style.css) (`:root`).
   The comp's sanctioned options were `#A9C7D9` (blue, current), `#D9A441`
   (gold), and `#7FA98E` (green).
-- **Project images** — the three "Selected work" cards and the About portrait
+- **Project images**, the three "Selected work" cards and the About portrait
   are styled placeholder panels (`.slot`). Replace each placeholder `<div>` in
   [`index.html`](index.html) with an `<img>` (e.g. `assets/project-one.png`).
-- **Copy / links** — text, the `hello@apollo.dev` mailto, and the GitHub/
+- **Copy / links**, text, the `hello@apollo.dev` mailto, and the GitHub/
   LinkedIn/X footer links are all plain HTML in `index.html`.
 
 ## Deploy (free)
@@ -63,6 +63,6 @@ Any of these host a static site for free. Pick one.
   empty, output directory `/`.
 
 ### Vercel
-- Import the repo at <https://vercel.com/new>. It auto-detects a static site —
+- Import the repo at <https://vercel.com/new>. It auto-detects a static site,
   no build command needed. (Vercel is only the "cleanest" choice when a project
   is Next.js; for this static build all four are equally simple.)
