@@ -569,6 +569,7 @@ img.stack-card__media { object-fit: cover; }
    CONTACT — uncovered
    ============================================================ */
 .contact {
+  --contact-crop-right: 12%; /* how much of the contact image to trim off the right */
   position: sticky;
   bottom: 0;
   z-index: 0;
@@ -585,7 +586,10 @@ img.stack-card__media { object-fit: cover; }
   overflow: hidden;
 }
 .contact__img {
-  width: 100%;
+  /* Non-destructive right-crop: the image is widened and anchored left, so the
+     container (overflow: hidden) clips the right edge. Tune --contact-crop-right
+     on .contact — bigger % = more trimmed off the right. Original PNG untouched. */
+  width: calc(100% + var(--contact-crop-right, 0%));
   height: 100%;
   object-fit: cover;
   object-position: left center;
