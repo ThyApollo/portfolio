@@ -1,8 +1,12 @@
 /* ============================================================
    Apollo — portfolio interactions
-   Converted from the design comp's DCLogic component into a plain
-   script: contact mail handler + scroll-driven effects, count-up
-   stats, and magnetic CTAs. No framework, no build step.
+   Plain script (no framework, no build step):
+     - contact mail handler
+     - hero dim, statement line-light, sub/quote reveals
+     - work sticky-stack shading + scale
+     - services: pin + horizontal scroll (01 → 04)
+     - stats count-up, magnetic CTAs
+     - marquee builder (fills any viewport width, seamless loop)
    ============================================================ */
 (function () {
   "use strict";
@@ -17,6 +21,7 @@
     var mix = function (t) {
       return "rgb(" + dimCh.map(function (c, i) { return Math.round(lerp(c, litCh[i], t)); }).join(",") + ")";
     };
+    var isMobile = function () { return window.matchMedia("(max-width: 760px)").matches; };
 
     /* ---------- contact form → mailto ---------- */
     var sendMail = function () {
@@ -27,6 +32,69 @@
     };
     var sendBtn = document.getElementById("cf-send");
     if (sendBtn) sendBtn.addEventListener("click", sendMail);
+
+    /* ---------- marquee: build two identical groups, each wide enough
+         that after the -50% shift the track still covers the viewport ---------- */
+    (function buildMarquee() {
+      var mount = $("[data-marquee]");
+      if (!mount) return;
+      var ICONS = [
+        ["typescript", "TypeScript"], ["react", "React"], ["nextdotjs", "Next.js"],
+        ["nodedotjs", "Node.js"], ["go", "Go"], ["postgresql", "PostgreSQL"],
+        ["redis", "Redis"], ["docker", "Docker"]
+      ];
+      var BASE = "https://cdn.jsdelivr.net/npm/simple-icons@13/icons/";
+      var SET_W = 800; // approx width of one 8-icon set incl. gaps
+      var container = mount.parentElement; // .marquee
+      var need = Math.max(container.clientWidth || 0, window.innerWidth) + 240;
+
+      function makeGroup(hidden) {
+        var g = document.createElement("div");
+        g.className = "marquee__group";
+        if (hidden) g.setAttribute("aria-hidden", "true");
+        var w = 0, guard = 0;
+        while (w < need && guard < 12) {
+          ICONS.forEach(function (ic) {
+            var img = document.createElement("img");
+            img.className = "marquee__icon";
+            img.src = BASE + ic[0] + ".svg";
+            img.alt = hidden ? "" : ic[1];
+            img.loading = "lazy";
+            g.appendChild(img);
+          });
+          w += SET_W;
+          guard++;
+        }
+        return g;
+      }
+      mount.textContent = "";
+      mount.appendChild(makeGroup(false));
+      mount.appendChild(makeGroup(true));
+    })();
+
+    /* ---------- services: pin + horizontal scroll ---------- */
+    var svcSection  = $("[data-services]");
+    var svcSticky   = svcSection && svcSection.querySelector(".services__sticky");
+    var svcTrack    = svcSection && svcSection.querySelector("[data-svc-track]");
+    var svcViewport = svcSection && svcSection.querySelector(".services__viewport");
+    var svcHint     = svcSection && svcSection.querySelector("[data-svc-hint]");
+    var svcDistance = 0;
+
+    function layoutServices() {
+      if (!svcSection || !svcTrack || !svcViewport) return;
+      if (reduced || isMobile()) {
+        // static/stacked layout handled by CSS — clear any inline sizing
+        svcSection.style.height = "";
+        svcTrack.style.transform = "";
+        svcDistance = 0;
+        return;
+      }
+      svcTrack.style.transform = "none";
+      var dist = svcTrack.scrollWidth - svcViewport.clientWidth;
+      svcDistance = Math.max(0, Math.round(dist));
+      // section tall enough to pin for exactly the horizontal distance — no dead scroll
+      svcSection.style.height = (window.innerHeight + svcDistance) + "px";
+    }
 
     /* ---------- scroll loop ---------- */
     var ticking = false;
@@ -51,8 +119,8 @@
         // hero parallax + dim-out
         var heroOv = $("[data-hero-overlay]");
         if (heroOv && !reduced) {
-          var p = clamp(y / (vh * 0.9));
-          heroOv.style.opacity = String(1 - p * 0.85);
+          var hp = clamp(y / (vh * 0.9));
+          heroOv.style.opacity = String(1 - hp * 0.85);
         }
 
         // statement line-light
@@ -74,20 +142,12 @@
           if (inner && !reduced) inner.style.transform = "scale(" + (1 - p * 0.04) + ")";
         });
 
-        // services spotlight
-        var svcSection = $("[data-services]");
-        if (svcSection) {
-          var r = svcSection.getBoundingClientRect();
-          var total = r.height - vh;
-          var pp = clamp(-r.top / total);
-          var idx = r.top > vh ? -1 : Math.min(3, Math.floor(pp * 4));
-          $$("[data-svc]").forEach(function (col, i) {
-            var active = i <= idx || reduced;
-            col.style.opacity = active ? "1" : "0.4";
-            col.style.borderTopColor = (i === idx || (reduced && i === 3))
-              ? "#EDECE8"
-              : active ? "rgba(237,236,232,0.5)" : "rgba(237,236,232,0.18)";
-          });
+        // services: horizontal scroll while pinned
+        if (svcSection && svcDistance > 0) {
+          var sr = svcSection.getBoundingClientRect();
+          var sp = clamp(-sr.top / svcDistance);
+          svcTrack.style.transform = "translateX(" + (-sp * svcDistance) + "px)";
+          if (svcHint) svcHint.style.opacity = String(1 - sp);
         }
 
         // sub-text light-up
@@ -112,8 +172,11 @@
         });
       });
     };
+
+    layoutServices();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", function () { layoutServices(); onScroll(); });
+    window.addEventListener("load", function () { layoutServices(); onScroll(); });
     onScroll();
 
     /* ---------- stats count-up ---------- */

@@ -53,11 +53,8 @@
       </div>
     </section>
 
-    <!-- ══════════ STATEMENT ══════════ -->
+    <!-- ══════════ STATEMENT (no background image) ══════════ -->
     <section class="statement">
-      <div class="statement__bg" aria-hidden="true">
-        <img class="statement__img" src="assets/jungle.png" alt="">
-      </div>
       <div class="statement__headline">
         <div class="statement__line" data-line>Built quiet.</div>
         <div class="statement__line" data-line>Shipped loud.</div>
@@ -66,7 +63,7 @@
     </section>
   </div>
 
-  <!-- ══════════ WORK — STICKY STACK ══════════ -->
+  <!-- ══════════ WORK — STICKY STACK (cards stack over one another) ══════════ -->
   <section id="work" class="work">
     <div class="work__head">
       <span class="work__title grad">Selected work</span>
@@ -106,6 +103,7 @@
           <span class="slot__chip">PLACEHOLDER</span>
           <span class="slot__label">Project Three — full-bleed shot of the product</span>
         </div>
+        <div class="stack-card__shade" data-card-shade></div>
         <div class="stack-card__tags">
           <span class="tag">BACKEND</span>
           <span class="tag">2025</span>
@@ -114,32 +112,35 @@
     </article>
   </section>
 
-  <!-- ══════════ SERVICES — SPOTLIGHT ══════════ -->
+  <!-- ══════════ SERVICES — PIN + HORIZONTAL SCROLL (01→04) ══════════ -->
   <section id="services" class="services" data-services>
     <div class="services__sticky">
       <div class="services__head">
         <span class="services__title grad">Services</span>
+        <span class="services__hint" data-svc-hint>SCROLL →</span>
       </div>
-      <div class="services__grid">
-        <div class="svc" data-svc>
-          <span class="svc__num">01</span>
-          <span class="svc__title">Full-stack web apps</span>
-          <span class="svc__desc">Product, from schema to ship. One owner across the whole stack — no seams, no hand-offs.</span>
-        </div>
-        <div class="svc" data-svc>
-          <span class="svc__num">02</span>
-          <span class="svc__title">Frontend / UI</span>
-          <span class="svc__desc">Interfaces with intent — fast, precise, and built to feel like this page does.</span>
-        </div>
-        <div class="svc" data-svc>
-          <span class="svc__num">03</span>
-          <span class="svc__title">Backend / APIs</span>
-          <span class="svc__desc">Systems that hold. Data models, APIs, and infrastructure that stay quiet under load.</span>
-        </div>
-        <div class="svc" data-svc>
-          <span class="svc__num">04</span>
-          <span class="svc__title">Consulting / audits</span>
-          <span class="svc__desc">Fresh eyes, hard answers. Architecture reviews, performance work, and honest roadmaps.</span>
+      <div class="services__viewport">
+        <div class="services__track" data-svc-track>
+          <article class="svc">
+            <span class="svc__num">01</span>
+            <span class="svc__title">Full-stack web apps</span>
+            <span class="svc__desc">Product, from schema to ship. One owner across the whole stack — no seams, no hand-offs.</span>
+          </article>
+          <article class="svc">
+            <span class="svc__num">02</span>
+            <span class="svc__title">Frontend / UI</span>
+            <span class="svc__desc">Interfaces with intent — fast, precise, and built to feel like this page does.</span>
+          </article>
+          <article class="svc">
+            <span class="svc__num">03</span>
+            <span class="svc__title">Backend / APIs</span>
+            <span class="svc__desc">Systems that hold. Data models, APIs, and infrastructure that stay quiet under load.</span>
+          </article>
+          <article class="svc">
+            <span class="svc__num">04</span>
+            <span class="svc__title">Consulting / audits</span>
+            <span class="svc__desc">Fresh eyes, hard answers. Architecture reviews, performance work, and honest roadmaps.</span>
+          </article>
         </div>
       </div>
     </div>
@@ -179,27 +180,9 @@
           </blockquote>
         </div>
 
-        <div class="marquee">
-          <div class="marquee__track">
-            <!-- set A -->
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/typescript.svg" alt="TypeScript">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/react.svg" alt="React">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/nextdotjs.svg" alt="Next.js">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/nodedotjs.svg" alt="Node.js">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/go.svg" alt="Go">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/postgresql.svg" alt="PostgreSQL">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/redis.svg" alt="Redis">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/docker.svg" alt="Docker">
-            <!-- set B (duplicate for seamless loop) -->
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/typescript.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/react.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/nextdotjs.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/nodedotjs.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/go.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/postgresql.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/redis.svg" alt="" aria-hidden="true">
-            <img class="marquee__icon" src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/docker.svg" alt="" aria-hidden="true">
-          </div>
+        <!-- Tech marquee — built by script.js so it always fills the viewport width -->
+        <div class="marquee" aria-label="Tools & technologies I work with">
+          <div class="marquee__track" data-marquee></div>
         </div>
       </section>
 

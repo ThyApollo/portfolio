@@ -62,7 +62,8 @@ img { display: block; max-width: 100%; }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes marquee {
-  to { transform: translateX(calc(-50% - 36px)); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 @keyframes pulse {
   0%, 100% { opacity: 1; }
@@ -208,7 +209,7 @@ img { display: block; max-width: 100%; }
   animation: heroIn 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
 }
 
-/* ---------- statement ---------- */
+/* ---------- statement (pure type on black, no image) ---------- */
 .statement {
   position: relative;
   z-index: 1;
@@ -220,16 +221,6 @@ img { display: block; max-width: 100%; }
   gap: 32px;
   min-height: 100vh;
   overflow: hidden;
-}
-.statement__bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.09;
-}
-.statement__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 .statement__headline {
   position: relative;
@@ -292,7 +283,8 @@ img { display: block; max-width: 100%; }
 .slot--portrait { background: radial-gradient(120% 120% at 50% 30%, #171b20 0%, #0b0d10 60%, #050506 100%); }
 
 /* ============================================================
-   WORK — sticky stack
+   WORK — sticky stack (each card pins at the top; the next card
+   scrolls up and stacks over it)
    ============================================================ */
 .work { position: relative; }
 .work__head {
@@ -321,6 +313,7 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
   border-radius: 16px;
   will-change: transform;
+  box-shadow: 0 -24px 60px rgba(0,0,0,0.55); /* lifts each card off the one beneath */
 }
 .stack-card__media {
   position: absolute;
@@ -357,11 +350,13 @@ img.stack-card__media { object-fit: cover; }
 }
 
 /* ============================================================
-   SERVICES — spotlight
+   SERVICES — pin + horizontal scroll (01 → 04)
+   Section height is set by script.js to exactly (100vh + horizontal
+   scroll distance), so there is no dead/blank scroll afterward.
    ============================================================ */
 .services {
   position: relative;
-  height: 220vh;
+  /* height is assigned by script.js on desktop */
 }
 .services__sticky {
   position: sticky;
@@ -370,29 +365,51 @@ img.stack-card__media { object-fit: cover; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 48px;
+  gap: 40px;
+  overflow: hidden;
+}
+.services__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 20px;
   padding: 0 40px;
 }
-.services__head { display: flex; justify-content: center; }
 .services__title {
   font-family: 'Clash Display', sans-serif;
   font-weight: 600;
   font-size: clamp(40px, 3.6vw, 56px);
   text-transform: uppercase;
 }
-.services__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.services__hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #6B6A66;
+  transition: opacity 0.4s;
+}
+.services__viewport {
+  width: 100%;
+  overflow: hidden;
+}
+.services__track {
+  display: flex;
   gap: 24px;
+  padding: 0 40px;
+  width: max-content;
+  will-change: transform;
 }
 .svc {
+  flex: 0 0 auto;
+  width: clamp(300px, 46vw, 600px);
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-top: 2px solid rgba(237,236,232,0.18);
-  padding: 24px 4px 0;
-  opacity: 0.4; /* JS raises to 1 as it spotlights each column */
-  transition: opacity 0.5s, border-color 0.5s;
+  border-top: 2px solid var(--accent);
+  background: linear-gradient(180deg, rgba(237,236,232,0.045) 0%, rgba(237,236,232,0) 60%);
+  padding: 28px 26px 26px;
+  border-radius: 0 0 6px 6px;
 }
 .svc__num {
   font-family: 'JetBrains Mono', monospace;
@@ -402,14 +419,14 @@ img.stack-card__media { object-fit: cover; }
 .svc__title {
   font-family: 'Clash Display', sans-serif;
   font-weight: 500;
-  font-size: clamp(20px, 1.6vw, 26px);
+  font-size: clamp(24px, 2.2vw, 34px);
   text-transform: uppercase;
-  min-height: 2.2em;
 }
 .svc__desc {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.65;
   color: #B5B4AF;
+  max-width: 42ch;
 }
 
 /* ============================================================
@@ -485,7 +502,7 @@ img.stack-card__media { object-fit: cover; }
   color: #8A8984;
 }
 
-/* ---------- marquee ---------- */
+/* ---------- marquee (groups are built by script.js) ---------- */
 .marquee {
   overflow: hidden;
   border-top: 1px solid rgba(237,236,232,0.06);
@@ -494,10 +511,15 @@ img.stack-card__media { object-fit: cover; }
 }
 .marquee__track {
   display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+.marquee__group {
+  display: flex;
   align-items: center;
   gap: 72px;
-  width: max-content;
-  animation: marquee 60s linear infinite;
+  padding-right: 72px; /* keeps spacing uniform across the seam */
+  flex: 0 0 auto;
 }
 .marquee__icon {
   height: 28px;
@@ -680,7 +702,6 @@ select.field option { color: #050506; }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
-  .services__grid { grid-template-columns: repeat(2, 1fr); }
   .quotes { grid-template-columns: 1fr; gap: 32px; }
   .contact__grid { grid-template-columns: 1fr; gap: 40px; }
   .about { grid-template-columns: 1fr; gap: 32px; }
@@ -704,17 +725,25 @@ select.field option { color: #050506; }
   .statement__headline { font-size: clamp(44px, 12vw, 96px); }
   .statement__sub { padding: 0 24px; }
 
-  /* services: drop the tall sticky spotlight, show everything stacked */
-  .services { height: auto; }
+  /* services: drop the horizontal pin; stack the cards vertically */
+  .services { height: auto !important; }
   .services__sticky {
     position: static;
     height: auto;
-    padding: 80px 24px;
-    gap: 32px;
+    padding: 80px 0 20px;
+    gap: 28px;
   }
-  .services__grid { grid-template-columns: 1fr; gap: 28px; }
-  .svc { opacity: 1 !important; }
-  .svc__title { min-height: 0; }
+  .services__head { justify-content: flex-start; padding: 0 24px; }
+  .services__hint { display: none; }
+  .services__viewport { overflow: visible; }
+  .services__track {
+    flex-direction: column;
+    gap: 24px;
+    width: auto;
+    padding: 0 24px;
+    transform: none !important;
+  }
+  .svc { width: auto; min-height: 0; }
 
   .work__head { padding: 40px 24px 20px; }
   .stack-card { padding: 12px 14px; }
@@ -741,7 +770,8 @@ select.field option { color: #050506; }
 }
 
 /* ============================================================
-   REDUCED MOTION — land every animated element in its final state
+   REDUCED MOTION — land every animated element in its final state,
+   and fall back to a static, fully-visible services layout.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -752,6 +782,17 @@ select.field option { color: #050506; }
   }
   .marquee__track { animation: none; }
   .statement__line { color: #D9E6EF; }
-  .svc { opacity: 1; }
   .quote { opacity: 1; }
+
+  .services { height: auto !important; }
+  .services__sticky { position: static; height: auto; padding: 80px 40px; }
+  .services__head { justify-content: flex-start; }
+  .services__hint { display: none; }
+  .services__viewport { overflow: visible; }
+  .services__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    transform: none !important;
+  }
 }
