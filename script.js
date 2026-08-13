@@ -23,15 +23,65 @@
     };
     var isMobile = function () { return window.matchMedia("(max-width: 760px)").matches; };
 
-    /* ---------- contact form → mailto ---------- */
-    var sendMail = function () {
-      var v = function (id) { return (document.getElementById(id) || {}).value || ""; };
-      var subject = encodeURIComponent("Project inquiry — " + (v("cf-type") || "New project"));
-      var body = encodeURIComponent(v("cf-msg") + "\n\n— " + v("cf-name") + " (" + v("cf-email") + ")");
-      window.location.href = "mailto:hello@apollo.dev?subject=" + subject + "&body=" + body;
-    };
+    /* ---------- contact form → Web3Forms (with mailto fallback) ----------
+       Get a free key at https://web3forms.com (enter your email → they mail
+       you a key). The key is PUBLIC by design — safe to commit. Submissions
+       go to the inbox the key is registered to; your address never appears
+       in the page. Until a key is set, "Send it" falls back to mailto. */
+    var WEB3FORMS_ACCESS_KEY = "5fb8fd34-779d-4bbf-91cf-01969fcfb8f9";
+
     var sendBtn = document.getElementById("cf-send");
-    if (sendBtn) sendBtn.addEventListener("click", sendMail);
+    if (sendBtn) {
+      var sendLabel = sendBtn.textContent;
+      var val = function (id) { var el = document.getElementById(id); return el ? String(el.value).trim() : ""; };
+      var flash = function (txt) {
+        sendBtn.textContent = txt;
+        setTimeout(function () { sendBtn.textContent = sendLabel; sendBtn.disabled = false; }, 2600);
+      };
+
+      sendBtn.addEventListener("click", function () {
+        var name = val("cf-name"), email = val("cf-email"), type = val("cf-type"), message = val("cf-msg");
+
+        // fallback: no key configured yet → old mailto behavior
+        if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
+          var subject = encodeURIComponent("Project inquiry — " + (type || "New project"));
+          var body = encodeURIComponent(message + "\n\n— " + name + " (" + email + ")");
+          window.location.href = "mailto:hello@apollo.dev?subject=" + subject + "&body=" + body;
+          return;
+        }
+
+        if (!email || !message) { flash("Add your email + a message"); return; }
+
+        sendBtn.disabled = true;
+        sendBtn.textContent = "Sending…";
+
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject: "Project inquiry — " + (type || "New project"),
+            from_name: name || "Portfolio contact form",
+            name: name,
+            email: email,
+            "Project type": type,
+            message: message,
+            botcheck: document.getElementById("cf-botcheck") ? document.getElementById("cf-botcheck").checked : false
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.success) {
+            sendBtn.textContent = "Sent ✓ — I’ll reply within a day";
+            ["cf-name", "cf-email", "cf-msg"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
+            var sel = document.getElementById("cf-type"); if (sel) sel.selectedIndex = 0;
+          } else {
+            flash("Couldn’t send — try again");
+          }
+        })
+        .catch(function () { flash("Couldn’t send — try again"); });
+      });
+    }
 
     /* ---------- marquee: build two identical groups, each wide enough
          that after the -50% shift the track still covers the viewport ---------- */

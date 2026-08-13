@@ -225,6 +225,8 @@
             <option value="Consulting / audit">Consulting / audit</option>
           </select>
           <textarea id="cf-msg" class="field field--area" placeholder="MESSAGE — WHAT ARE WE BUILDING?"></textarea>
+          <!-- Web3Forms spam honeypot — hidden from people, catches bots -->
+          <input type="checkbox" name="botcheck" id="cf-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
           <button id="cf-send" class="contact__send" type="button" data-magnet>Send it</button>
         </form>
       </div>
