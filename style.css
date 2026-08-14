@@ -762,8 +762,19 @@ select.field option { color: #050506; }
 }
 
 @media (max-width: 420px) {
-  .form-row { grid-template-columns: 1fr; }
   .hero__meta-line:nth-child(-n+4) { font-size: 12px; }
+}
+
+/* short screens: compact the contact so the form + footer fit inside the 100vh reveal */
+@media (max-width: 760px) and (max-height: 760px) {
+  .contact { padding-top: 76px; padding-bottom: 12px; }
+  .contact__title { font-size: clamp(30px, 9vw, 48px); }
+  .contact__left { gap: 10px; }
+  .contact__grid { gap: 14px; }
+  .field { height: 48px; }
+  .field--area { height: 72px; }
+  .contact__send { padding: 14px 34px; }
+  .contact__footer { margin-top: 18px; padding-top: 14px; }
 }
 
 /* ============================================================
