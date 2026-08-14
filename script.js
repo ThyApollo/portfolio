@@ -244,6 +244,23 @@
       counters.forEach(function (c) { io.observe(c); });
     }
 
+    /* ---------- mobile nav (hamburger) ---------- */
+    var navEl = $("[data-nav]");
+    var navToggle = $("[data-nav-toggle]");
+    if (navEl && navToggle) {
+      var setNav = function (open) {
+        navEl.classList.toggle("nav--open", open);
+        navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      navToggle.addEventListener("click", function () {
+        setNav(!navEl.classList.contains("nav--open"));
+      });
+      // close the menu when any item is tapped
+      $$(".nav__links a").forEach(function (a) {
+        a.addEventListener("click", function () { setNav(false); });
+      });
+    }
+
     /* ---------- CONTACT nav → jump to the bottom (the send-a-message form) ---------- */
     var contactLink = document.querySelector('a.nav__cta[href="#contact"]');
     if (contactLink) {

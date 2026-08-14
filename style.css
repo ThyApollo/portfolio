@@ -128,6 +128,30 @@ img { display: block; max-width: 100%; }
   color: var(--bg);
 }
 
+/* hamburger toggle — shown only on mobile */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 40px;
+  padding: 9px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.nav__toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav--open .nav__toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav--open .nav__toggle-bar:nth-child(2) { opacity: 0; }
+.nav--open .nav__toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ============================================================
    HERO + STATEMENT
    ============================================================ */
@@ -301,21 +325,24 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(5,5,6,0.9) 0%, rgba(5,5,6,0.55) 20%, rgba(5,5,6,0) 46%);
+  background: linear-gradient(to top, rgba(5,5,6,0.5) 0%, rgba(5,5,6,0) 30%);
 }
+/* caption pinned to the TOP-RIGHT edge of the image (desktop + mobile) */
 .stack-card__bottom {
   position: absolute;
-  left: 40px;
-  right: 40px;
-  bottom: 34px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
+  max-width: min(440px, 72%);
   pointer-events: none;
 }
 .stack-card__caption {
-  max-width: 640px;
+  background: rgba(5, 5, 6, 0.66);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  padding: 80px 22px 18px;   /* top padding clears the fixed nav when the card is pinned */
+  border-radius: 0 0 0 14px; /* round the inner (bottom-left) corner */
 }
 .stack-card__title {
   margin: 0 0 10px;
@@ -523,7 +550,7 @@ img.stack-card__media { object-fit: cover; object-position: top center; transiti
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 60px 40px 28px;
+  padding: 88px 40px 28px; /* top clears the fixed nav so "Start a project" isn't cut off */
   overflow: hidden;
 }
 .contact__bg {
@@ -660,23 +687,47 @@ select.field option { color: #050506; }
 }
 
 @media (max-width: 760px) {
-  /* nav collapses to brand + CTA */
-  .nav { padding: 14px 20px; }
-  .nav__links { gap: 16px; }
-  .nav__link { display: none; }
+  /* nav: hamburger dropdown menu (hamburger on the left) */
+  .nav { padding: 14px 20px; justify-content: flex-start; gap: 16px; }
+  .nav__toggle { display: flex; order: -1; }
+  .nav--open {
+    background: rgba(5,5,6,0.96) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+  .nav__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 22px 24px 28px;
+    background: rgba(5,5,6,0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(237,236,232,0.08);
+    display: none;
+  }
+  .nav--open .nav__links { display: flex; }
+  .nav__link { display: block; font-size: 14px; }
+  .nav__cta { display: inline-block; }
 
-  /* hero: shrink type + tuck to the edges so nothing overflows */
-  .hero { padding: 84px 14px 14px; }
-  .hero__title { top: 2.5vh; left: 20px; font-size: clamp(56px, 17vw, 120px); }
-  .hero__meta { left: 20px; bottom: 24px; gap: 7px; }
+  /* hero: stack Apollo + Developer at the top, service list at the bottom */
+  .hero { padding: 76px 16px 16px; }
+  .hero__overlay { display: flex; flex-direction: column; padding: 26px 22px; box-sizing: border-box; }
+  .hero__title, .hero__word, .hero__meta { position: static; }
+  .hero__title { order: 1; font-size: clamp(52px, 16vw, 110px); }
+  .hero__word  { order: 2; font-size: clamp(40px, 12vw, 88px); }
+  .hero__meta  { order: 3; margin-top: auto; gap: 7px; }
   .hero__meta-line, .hero__tagline { font-size: 13px; }
   .hero__rule { width: 140px; }
-  .hero__word { right: 20px; bottom: 16px; font-size: clamp(40px, 13vw, 88px); }
 
   .statement__headline { font-size: clamp(44px, 12vw, 96px); }
   .statement__sub { padding: 0 24px; }
 
-  /* services: drop the horizontal pin; stack the cards vertically */
+  /* services: drop the horizontal pin; stack the cards, center the heading */
   .services { height: auto !important; }
   .services__sticky {
     position: static;
@@ -684,7 +735,7 @@ select.field option { color: #050506; }
     padding: 80px 0 20px;
     gap: 28px;
   }
-  .services__head { justify-content: flex-start; padding: 0 24px; }
+  .services__head { justify-content: center; padding: 0 24px; }
   .services__viewport { overflow: visible; }
   .services__track {
     flex-direction: column;
@@ -697,26 +748,17 @@ select.field option { color: #050506; }
 
   .work__head { padding: 40px 24px 20px; }
   .stack-card { padding: 12px 14px; }
-  .stack-card__bottom {
-    left: 20px; right: 20px; bottom: 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
 
   .proof { padding: 48px 24px 80px; gap: 48px; }
   .stats { gap: 28px; }
 
-  /* contact: let it flow instead of pinning, so the form never clips */
-  .contact {
-    position: static;
-    height: auto;
-    min-height: 100vh;
-    padding: 48px 24px 32px;
-  }
-  .contact__bg { left: 0; right: 0; top: 0; bottom: 0; border-radius: 0; opacity: 0.5; }
-  .contact [data-sub] { opacity: 1 !important; }
-  .contact__footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+  /* contact: keep the sticky z-layer reveal (like the hero image); just fit + center */
+  .contact { padding: 84px 20px 16px; }
+  .contact__title { font-size: clamp(40px, 11vw, 64px); }
+  .contact__grid { gap: 18px; }
+  .contact__left { align-items: center; text-align: center; gap: 14px; }
+  .field--area { height: 92px; }
+  .contact__footer { flex-direction: column; gap: 12px; align-items: flex-start; }
 }
 
 @media (max-width: 420px) {

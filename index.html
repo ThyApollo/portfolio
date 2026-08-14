@@ -22,7 +22,12 @@
   <!-- ══════════ NAV ══════════ -->
   <header class="nav" data-nav>
     <a href="#top" class="nav__brand">APOLLO</a>
-    <nav class="nav__links">
+    <button class="nav__toggle" data-nav-toggle type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+    </button>
+    <nav class="nav__links" id="nav-menu">
       <a href="#work" class="nav__link">WORK</a>
       <a href="#services" class="nav__link">SERVICES</a>
       <a href="#about" class="nav__link">ABOUT</a>
